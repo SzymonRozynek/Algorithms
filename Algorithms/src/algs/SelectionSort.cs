@@ -27,12 +27,13 @@ namespace Algorithms {
             Element minElement = elements[start];
             for(int i = start + 1; i <= end; i++) {
                 if(elements[i].value <= minElement.value) {
+                    //Second condition to provide sorting stabilization
                     if (!(elements[i].value == minElement.value & elements[i].index > minElement.index)) {
                         minElement = elements[i];
                         index = i;
                     }
                 }
-                Thread.Sleep(delay);
+                IterationTick();
             }
             return index;
         }

@@ -98,6 +98,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\algs\InsertionSort.cs" />
     <Compile Include="src\algs\SelectionSort.cs" />
     <Compile Include="src\Graph.cs" />
     <Compile Include="src\Main.cs" />

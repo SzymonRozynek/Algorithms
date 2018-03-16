@@ -47,6 +47,7 @@ namespace Algorithms {
                 foreach (var x in types) {
                     if (i == input)
                         s = (SortingAlgorithm)Activator.CreateInstance(x);
+                    i++;
                 }
                 if (s == null)
                     Console.WriteLine("There is no algorithm with such index");

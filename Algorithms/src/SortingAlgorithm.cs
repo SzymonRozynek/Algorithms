@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Algorithms {
@@ -9,6 +10,7 @@ namespace Algorithms {
 
         private int deltaTime = 0;
         protected int delay = 0;
+        protected int iterationCount = 0;
 
         public void Sort(Element[] elements) {
             int t = DateTime.Now.Millisecond;
@@ -21,13 +23,18 @@ namespace Algorithms {
             Sort(elements);
         }
 
-            //in ms
-            public int GetElapsedTime() {
+        //in ms
+        public int GetElapsedTime() {
             return deltaTime;
         }
 
         protected abstract void SortElements(Element[] elements);
         public abstract string GetName();
+
+        protected void IterationTick() {
+            iterationCount++;
+            Thread.Sleep(delay);
+        }
 
         protected void SwapElements(Element[] elements, int index1, int index2) {
             Element temp = elements[index2];
