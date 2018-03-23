@@ -11,6 +11,10 @@ namespace Algorithms {
 
     class Visualization : Window {
 
+        public Visualization() {
+            elements = new Element[0];
+        }
+
         public Visualization(Element[] elements) {
             this.elements = elements;
         }
@@ -18,7 +22,11 @@ namespace Algorithms {
         Element[] elements;
 
         protected override string GetWindowName() {
-            return "Graph";
+            return "Visualization";
+        }
+
+        public void SetElements(Element[] elements) {
+            this.elements = elements;
         }
 
         protected override void Update() {

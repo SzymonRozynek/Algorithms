@@ -47,6 +47,7 @@ namespace Algorithms {
             Console.WriteLine("Insert the first number of elements");
             int nm = InputParameter();
             SortingAlgorithm s = InputAlgorithm();
+            Graph g = new Graph();
             Table table = new Table(3, 21);
             table.StartWithNewThread();
             table.AddLine(new string[] {"Number of elements", "Time (in seconds)", "Number of iterations"});
@@ -54,10 +55,11 @@ namespace Algorithms {
                 int n = nm * (i + 1);
                 Element[] elements = GenerateElements(n, n);
                 s.Sort(elements);
+                g.AddPoint(n, (float)s.GetElapsedTime() / 1000);
                 string[] line = {n.ToString(), ((float)s.GetElapsedTime()/1000).ToString(), s.GetIterationCount().ToString() };
                 table.AddLine(line);
             }
-
+            g.StartWithNewThread();
         }
 
         private SortingAlgorithm InputAlgorithm() {
