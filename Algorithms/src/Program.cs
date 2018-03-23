@@ -37,8 +37,8 @@ namespace Algorithms {
             Element[] elements = GenerateElements(n, max);
 
             SortingAlgorithm s = InputAlgorithm();
-            Thread graphThread = new Thread(new ParameterizedThreadStart(DrawGraph));
-            graphThread.Start(elements);
+            Visualization g = new Visualization(elements);
+            g.StartWithNewThread();
             s.Sort(elements);
             Console.WriteLine("Time: " + s.GetElapsedTime());
         }
@@ -100,11 +100,6 @@ namespace Algorithms {
                 }
             }
             return n;
-        }
-
-        private void DrawGraph(object elements) {
-            Visualization g = new Visualization((Element[])elements);
-            g.Start();
         }
 
         private Element[] GenerateElements(int count, int maxValue) {
