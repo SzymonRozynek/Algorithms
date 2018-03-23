@@ -4,28 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Algorithms {
     abstract class SortingAlgorithm {
 
-        private int deltaTime = 0;
-        protected int delay = 0;
+        private long deltaTime = 0;
         protected int iterationCount = 0;
 
         public void Sort(Element[] elements) {
-            int t = DateTime.Now.Millisecond;
+            iterationCount = 0;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             SortElements(elements);
-            deltaTime = DateTime.Now.Millisecond - t;
-        }
-
-        public void Sort(Element[] elements, int delay) {
-            this.delay = delay;
-            Sort(elements);
+            stopwatch.Stop();
+            deltaTime = stopwatch.ElapsedMilliseconds;
         }
 
         //in ms
-        public int GetElapsedTime() {
+        public long GetElapsedTime() {
             return deltaTime;
+        }
+
+        public int GetIterationCount() {
+            return iterationCount;
         }
 
         protected abstract void SortElements(Element[] elements);
@@ -33,7 +35,6 @@ namespace Algorithms {
 
         protected void IterationTick() {
             iterationCount++;
-            Thread.Sleep(delay);
         }
 
         protected void SwapElements(Element[] elements, int index1, int index2) {

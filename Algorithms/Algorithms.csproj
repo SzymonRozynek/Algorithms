@@ -53,6 +53,33 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="fonts\ARIAL.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\ARIALBD.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\ARIALBI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\ARIALI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\ARIALN.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\ARIALNB.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\ARIALNBI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\ARIALNI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\ARIBLK.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="sfmlnet-audio-2">
@@ -67,6 +94,7 @@
     <Reference Include="sfmlnet-window-2">
       <HintPath>D:\SFML.Net-2.2\lib\sfmlnet-window-2.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="csfml-audio-2.dll">
@@ -100,10 +128,13 @@
   <ItemGroup>
     <Compile Include="src\algs\InsertionSort.cs" />
     <Compile Include="src\algs\SelectionSort.cs" />
-    <Compile Include="src\Graph.cs" />
+    <Compile Include="src\graphics\Table.cs" />
+    <Compile Include="src\graphics\Visualization.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="src\SortingAlgorithm.cs" />
+    <Compile Include="src\graphics\Window.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

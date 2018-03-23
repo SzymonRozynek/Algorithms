@@ -8,27 +8,56 @@ using System.Threading;
 namespace Algorithms {
     class Program {
 
-        private Element[] elements;
-
         public void Start() {
+            Console.WriteLine("Choose a task");
+            Console.WriteLine("1. Task 1");
+            Console.WriteLine("2. Task 2");
+            int input = InputParameter();
+            switch(input) {
+                case 1:
+                    Task1();
+                    break;
+                case 2:
+                    Task2();
+                    break;
+                default:
+                    Console.WriteLine("No task with such index");
+                    break;
+            }
+            Console.WriteLine("Press Enter to exit");
+            Console.ReadLine();
+        }
+
+        private void Task1() {
             Console.WriteLine("Insert number of elements");
             int n = InputParameter();
             Console.WriteLine("Insert maximum value of elements");
             int max = InputParameter();
-            Console.WriteLine("Insert a delay time between each iteration (0 = no delay)");
-            int delay = InputParameter();
 
-            GenerateElements(n, max);
+            Element[] elements = GenerateElements(n, max);
 
             SortingAlgorithm s = InputAlgorithm();
-            Thread graphThread = new Thread(new ThreadStart(DrawGraph));
-            graphThread.Start();
-            s.Sort(elements, delay);
+            Thread graphThread = new Thread(new ParameterizedThreadStart(DrawGraph));
+            graphThread.Start(elements);
+            s.Sort(elements);
+            Console.WriteLine("Time: " + s.GetElapsedTime());
+        }
 
-            PrintElements();
+        private void Task2() {
+            Console.WriteLine("Insert the first number of elements");
+            int nm = InputParameter();
+            SortingAlgorithm s = InputAlgorithm();
+            Table table = new Table(3, 21);
+            table.StartWithNewThread();
+            table.AddLine(new string[] {"Number of elements", "Time (in seconds)", "Number of iterations"});
+            for (int i = 0; i < 20; i++) {
+                int n = nm * (i + 1);
+                Element[] elements = GenerateElements(n, n);
+                s.Sort(elements);
+                string[] line = {n.ToString(), ((float)s.GetElapsedTime()/1000).ToString(), s.GetIterationCount().ToString() };
+                table.AddLine(line);
+            }
 
-            Console.WriteLine("Press Enter to exit");
-            Console.ReadLine();
         }
 
         private SortingAlgorithm InputAlgorithm() {
@@ -64,22 +93,22 @@ namespace Algorithms {
                     if(n < 0) {
                         Console.WriteLine("Parameter must be a non-negative integer! Please try again.");
                     }
-                } catch (FormatException e) {
+                } catch (FormatException) {
                     Console.WriteLine("Invalid format! Please try again.");
-                } catch (OverflowException e) {
+                } catch (OverflowException) {
                     Console.WriteLine("Number is too large!");
                 }
             }
             return n;
         }
 
-        private void DrawGraph() {
-            Graph g = new Graph();
-            g.Draw(elements);
+        private void DrawGraph(object elements) {
+            Visualization g = new Visualization((Element[])elements);
+            g.Start();
         }
 
-        private void GenerateElements(int count, int maxValue) {
-            elements = new Element[count];
+        private Element[] GenerateElements(int count, int maxValue) {
+            Element[] elements = new Element[count];
             Random rand = new Random();
             for (int i = 0; i < count; i++) {
                 elements[i] = new Element() {
@@ -87,11 +116,7 @@ namespace Algorithms {
                     index = i + 1
                 };
             }
-        }
-
-        private void PrintElements() {
-            foreach (Element e in elements)
-                Console.WriteLine("#" + e.index + ": " + e.value);
+            return elements;
         }
     }
 
