@@ -18,7 +18,29 @@ namespace Algorithms {
             stopwatch.Start();
             SortElements(elements);
             stopwatch.Stop();
+            if(!IsSorted(elements)) {
+                Console.WriteLine("Error! The algorithm failed to sort all the elements!");
+            }
+            if (!IsStable(elements)) {
+                Console.WriteLine("The algorithm is not stable!");
+            }
             deltaTime = stopwatch.ElapsedMilliseconds;
+        }
+
+        private bool IsSorted(Element[] elements) {
+            for(int i = 0; i < elements.Length - 1 ; i++) {
+                if (elements[i].value > elements[i + 1].value)
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsStable(Element[] elements) {
+            for (int i = 0; i < elements.Length - 1; i++) {
+                if (elements[i].value == elements[i + 1].value && elements[i].index > elements[i + 1].index)
+                    return false;
+            }
+            return true;
         }
 
         //in ms
