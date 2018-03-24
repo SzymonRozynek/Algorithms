@@ -56,24 +56,6 @@ namespace Algorithms {
             };
             renderWindow.Draw(axisY);
 
-            //Axis labels
-            float maxWidth = 100;
-            Text xt = new Text(xLabel, font) {
-                Position = new Vector2f(axisOffset + graphWidth, windowHeight - axisOffset - 20),
-                CharacterSize = 20
-            };
-            xt.Origin = new Vector2f(xt.GetLocalBounds().Width / 2, xt.GetLocalBounds().Height / 2);
-            xt.Scale = xt.GetLocalBounds().Width > maxWidth ? (new Vector2f(1.0f, 1.0f)) * (maxWidth / xt.GetLocalBounds().Width) : new Vector2f(1.0f, 1.0f);
-            renderWindow.Draw(xt);
-            Text yt = new Text(yLabel, font) {
-                Position = new Vector2f(axisOffset, axisOffset - 20),
-                CharacterSize = 20
-                
-            };
-            yt.Origin = new Vector2f(yt.GetLocalBounds().Width / 2, yt.GetLocalBounds().Height / 2);
-            yt.Scale = yt.GetLocalBounds().Width > maxWidth ? (new Vector2f(1.0f, 1.0f)) * (maxWidth / yt.GetLocalBounds().Width) : new Vector2f(1.0f, 1.0f);
-            renderWindow.Draw(yt);
-
             //Calculate max
             int maxArg = 0;
             float maxValue = 0;
@@ -126,7 +108,7 @@ namespace Algorithms {
                 renderWindow.Draw(label);
             }
 
-            //Points
+            //Data
             int colorCount = 0;
             float labelY = axisOffset;
             foreach (Data data in datas) {
@@ -146,6 +128,7 @@ namespace Algorithms {
                 renderWindow.Draw(col);
                 renderWindow.Draw(label);
 
+                //Points
                 foreach (Point p in data.points) {
                     CircleShape c = new CircleShape() {
                         Position = new Vector2f(axisOffset + graphWidth * ((float)p.argument / maxArg), windowHeight - axisOffset - graphHeight * (p.value / maxValue)),
@@ -155,8 +138,43 @@ namespace Algorithms {
                     c.Position -= c.Scale * c.Radius;
                     renderWindow.Draw(c);
                 }
+
+                for(int i = 0; i < data.points.Count - 1; i++) {
+                    Point p1 = data.points.ElementAt(i);
+                    Vector2f v1 = new Vector2f(axisOffset + graphWidth * ((float)p1.argument / maxArg), windowHeight - axisOffset - graphHeight * (p1.value / maxValue));
+                    Point p2 = data.points.ElementAt(i + 1);
+                    Vector2f v2 = new Vector2f(axisOffset + graphWidth * ((float)p2.argument / maxArg), windowHeight - axisOffset - graphHeight * (p2.value / maxValue));
+                    float distance = (float)Math.Sqrt(Math.Pow(v2.X - v1.X, 2) + Math.Pow(v2.Y - v1.Y, 2));
+                    RectangleShape line = new RectangleShape() {
+                        Size = new Vector2f(distance, 2.0f),
+                        Position = (v1 + v2) * 0.5f,
+                        Origin = new Vector2f(distance / 2, 0.0f),
+                        FillColor = graphColors[colorCount],
+                        Rotation = (int)(180.0*Math.Atan2(v2.Y - v1.Y, v2.X - v1.X)/Math.PI)
+                    };
+                    renderWindow.Draw(line);
+                }
+
                 colorCount++;
             }
+
+            //Axis labels
+            float maxWidth = 100;
+            Text xt = new Text(xLabel, font) {
+                Position = new Vector2f(axisOffset + graphWidth, windowHeight - axisOffset - 20),
+                CharacterSize = 20
+            };
+            xt.Origin = new Vector2f(xt.GetLocalBounds().Width / 2, xt.GetLocalBounds().Height / 2);
+            xt.Scale = xt.GetLocalBounds().Width > maxWidth ? (new Vector2f(1.0f, 1.0f)) * (maxWidth / xt.GetLocalBounds().Width) : new Vector2f(1.0f, 1.0f);
+            renderWindow.Draw(xt);
+            Text yt = new Text(yLabel, font) {
+                Position = new Vector2f(axisOffset, axisOffset - 20),
+                CharacterSize = 20
+
+            };
+            yt.Origin = new Vector2f(yt.GetLocalBounds().Width / 2, yt.GetLocalBounds().Height / 2);
+            yt.Scale = yt.GetLocalBounds().Width > maxWidth ? (new Vector2f(1.0f, 1.0f)) * (maxWidth / yt.GetLocalBounds().Width) : new Vector2f(1.0f, 1.0f);
+            renderWindow.Draw(yt);
         }
 
         public class Data {

@@ -10,8 +10,8 @@ namespace Algorithms {
 
         public void Start() {
             Console.WriteLine("Choose a task");
-            Console.WriteLine("1. Task 1");
-            Console.WriteLine("2. Task 2");
+            Console.WriteLine("1. Implementation");
+            Console.WriteLine("2. Diagnostics");
             int input = InputParameter();
             switch(input) {
                 case 1:
