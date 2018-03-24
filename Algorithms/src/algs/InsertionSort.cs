@@ -10,6 +10,10 @@ namespace Algorithms {
             return "Insertion Sort";
         }
 
+        public override bool IsInPlace() {
+            return true;
+        }
+
         protected override void SortElements(Element[] elements) {
             int start = 1;
             for(int i = start; i < elements.Length; i++) {

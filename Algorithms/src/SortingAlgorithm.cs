@@ -31,6 +31,8 @@ namespace Algorithms {
         }
 
         protected abstract void SortElements(Element[] elements);
+        //Czy algorytm wykonuje sie w miejscu
+        public abstract bool IsInPlace();
         public abstract string GetName();
 
         protected void IterationTick() {

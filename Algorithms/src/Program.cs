@@ -46,18 +46,25 @@ namespace Algorithms {
         private void Task2() {
             Console.WriteLine("Insert the first number of elements");
             int nm = InputParameter();
-            SortingAlgorithm s = InputAlgorithm();
-            Graph g = new Graph();
+            Graph g = new Graph("Number of elements", "Time[s]");
+            var types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes().Where(x => x.BaseType == typeof(SortingAlgorithm));
             Table table = new Table(3, 21);
             table.StartWithNewThread();
-            table.AddLine(new string[] {"Number of elements", "Time (in seconds)", "Number of iterations"});
-            for (int i = 0; i < 20; i++) {
-                int n = nm * (i + 1);
-                Element[] elements = GenerateElements(n, n);
-                s.Sort(elements);
-                g.AddPoint(n, (float)s.GetElapsedTime() / 1000);
-                string[] line = {n.ToString(), ((float)s.GetElapsedTime()/1000).ToString(), s.GetIterationCount().ToString() };
-                table.AddLine(line);
+            foreach (var x in types) {
+                SortingAlgorithm s = (SortingAlgorithm)Activator.CreateInstance(x);
+                Table.Tab tab = new Table.Tab(s.GetName());
+                table.AddTab(tab);
+                tab.AddLine(new string[] { "Number of elements", "Time (in seconds)", "Number of iterations" });
+                Graph.Data pointData = new Graph.Data(s.GetName());
+                for (int i = 0; i < 20; i++) {
+                    int n = nm * (i + 1);
+                    Element[] elements = GenerateElements(n, n);
+                    s.Sort(elements);
+                    pointData.AddPoint(n, ((float)s.GetElapsedTime() / 1000));
+                    string[] line = { n.ToString(), ((float)s.GetElapsedTime() / 1000).ToString("0.00"), s.GetIterationCount().ToString() };
+                    tab.AddLine(line);
+                }
+                g.AddData(pointData);
             }
             g.StartWithNewThread();
         }

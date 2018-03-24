@@ -12,6 +12,10 @@ namespace Algorithms {
             return "Selection Sort";
         }
 
+        public override bool IsInPlace() {
+            return true;
+        }
+
         protected override void SortElements(Element[] elements) {
             int start = 0;
             int end = elements.Length - 1;
