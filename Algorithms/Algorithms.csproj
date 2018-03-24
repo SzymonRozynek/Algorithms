@@ -97,6 +97,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\button.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="csfml-audio-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -128,6 +131,7 @@
   <ItemGroup>
     <Compile Include="src\algs\InsertionSort.cs" />
     <Compile Include="src\algs\SelectionSort.cs" />
+    <Compile Include="src\graphics\Button.cs" />
     <Compile Include="src\graphics\Graph.cs" />
     <Compile Include="src\graphics\Table.cs" />
     <Compile Include="src\graphics\Visualization.cs" />
