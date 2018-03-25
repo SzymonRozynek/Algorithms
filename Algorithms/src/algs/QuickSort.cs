@@ -32,7 +32,7 @@ namespace Algorithms {
                 if(l<r) SwapElements(elements, l++, r);
             }
 
-            if (s < r ) QS(elements, s, r-1);
+            if (s < r ) QS(elements, s, r - 1);
             if (r < e) QS(elements, r+1, e);
         }
 

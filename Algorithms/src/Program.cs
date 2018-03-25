@@ -11,7 +11,8 @@ namespace Algorithms {
         public void Start() {
             Console.WriteLine("Choose a task");
             Console.WriteLine("1. Implementation");
-            Console.WriteLine("2. Diagnostics");
+            Console.WriteLine("2. Diagnostics (random distribution)");
+            Console.WriteLine("3. Diagnostics (for each distribution)");
             int input = InputParameter();
             switch(input) {
                 case 1:
@@ -19,6 +20,9 @@ namespace Algorithms {
                     break;
                 case 2:
                     Task2();
+                    break;
+                case 3:
+                    Task3();
                     break;
                 default:
                     Console.WriteLine("No task with such index");
@@ -71,6 +75,36 @@ namespace Algorithms {
             g.StartWithNewThread();
         }
 
+        private void Task3() {
+            SortingAlgorithm[] algs = { new QuickSort(), new InsertionSort() };
+            Console.WriteLine("Insert the first number of elements");
+            int nm = InputParameter();
+            Table table = new Table(3, 21);
+            table.StartWithNewThread();
+            for (int k = 0; k < 2; k++) {
+                string distr = k == 0 ? "(Random)" : "(Ascending)";
+                Graph g = new Graph("Number of elements", "Time[s]");
+                foreach (SortingAlgorithm s in algs) {
+                    Table.Tab tab = new Table.Tab(s.GetName() + " " + distr);
+                    table.AddTab(tab);
+                    tab.AddLine(new string[] { "Number of elements", "Time (in seconds)", "Number of iterations" });
+                    Graph.Data pointData = new Graph.Data(s.GetName() + " " + distr);
+                    for (int i = 0; i < 20; i++) {
+                        int n = nm * (i + 1);
+                        Element[] elements = GenerateElements(n, n, k == 0 ? Distribution.Random : Distribution.Ascending);
+                        s.Sort(elements);
+                        pointData.AddPoint(n, ((float)s.GetElapsedTime() / 1000));
+                        string[] line = { n.ToString(), ((float)s.GetElapsedTime() / 1000).ToString("0.00"), s.GetIterationCount().ToString() };
+                        tab.AddLine(line);
+                    }
+                    g.AddData(pointData);
+                }
+                g.StartWithNewThread();
+            }
+        }
+
+
+
         private SortingAlgorithm InputAlgorithm() {
             SortingAlgorithm s = null;
             Console.WriteLine("Choose a sorting algorithm");
@@ -113,14 +147,23 @@ namespace Algorithms {
             return n;
         }
 
-        private Element[] GenerateElements(int count, int maxValue) {
+        private Element[] GenerateElements(int count, int maxValue, Distribution dis = Distribution.Random) {
             Element[] elements = new Element[count];
-            Random rand = new Random();
-            for (int i = 0; i < count; i++) {
-                elements[i] = new Element() {
-                    value = rand.Next(maxValue) + 1,
-                    index = i + 1
-                };
+            if (dis == Distribution.Random) {
+                Random rand = new Random();
+                for (int i = 0; i < count; i++) {
+                    elements[i] = new Element() {
+                        value = rand.Next(maxValue) + 1,
+                        index = i + 1
+                    };
+                }
+            } else if (dis == Distribution.Ascending) {
+                for (int i = 0; i < count; i++) {
+                    elements[i] = new Element() {
+                        value = i + 1,
+                        index = i + 1
+                    };
+                }
             }
             return elements;
         }
@@ -129,5 +172,9 @@ namespace Algorithms {
     public class Element {
         public int value;
         public int index;
+    }
+
+    public enum Distribution {
+        Random, Ascending
     }
 }
