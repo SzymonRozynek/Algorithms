@@ -44,7 +44,7 @@ namespace Algorithms {
             QS(elements, start, end);
             for (int i = 1; i <= end; i++)
             {
-                Console.WriteLine(elements[i].value);
+                //Console.WriteLine(elements[i].value);
 
             } 
         }
