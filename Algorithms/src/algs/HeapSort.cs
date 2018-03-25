@@ -20,24 +20,33 @@ namespace Algorithms {
 
         void Heap(Element[] elements, int i, int end)
         {
-            if (((2*i <= end) &&(elements[2 * i].value > elements[i].value))||( (2 * i + 1 <= end) && (elements[2 * i + 1].value > elements[i].value)))
+            int l, p;
+            if (2 * i <= end)
             {
-                if (elements[2 * i + 1].value > elements[2 * i].value)
+                l = 2 * i;
+                if ((2 * i + 1) <= end)
                 {
-                    if (2 * i + 1 < end / 2)
+                    p = 2 * i;
+                    if ((elements[l].value > elements[p].value))
                     {
-                        SwapElements(elements, 2 * i + 1, i);
-                        Heap(elements, 2 * i + 1, end);
-                    }                  
-                }
-                else {
-                    if (2 * i < end / 2)
-                    {
-                        SwapElements(elements, 2 * i, i);
-                        Heap(elements, 2 * i, end);
+                        if (elements[l].value > elements[i].value)
+                        {
+                            SwapElements(elements, l, i);
+                            Heap(elements, l, end);
+                        }
                     }
+                    else if (elements[p].value > elements[i].value)
+                    {
+                        SwapElements(elements, p, i);
+                        Heap(elements, p, end);
+                    }
+
                 }
-               
+                if (elements[l].value > elements[i].value)
+                {
+                    SwapElements(elements, l, i);
+                    Heap(elements, l, end);
+                }
             }
 
         }
