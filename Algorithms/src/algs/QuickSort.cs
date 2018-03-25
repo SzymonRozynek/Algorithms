@@ -29,11 +29,11 @@ namespace Algorithms {
             {
                 while (elements[l].value <p) { l++; IterationTick(); }
                 while (elements[r].value >p) { r--; IterationTick(); }
-                if(l<r) SwapElements(elements, l++, r);
+                if(l<r) SwapElements(elements, l++, r--);
             }
 
-            if (s < r ) QS(elements, s, r - 1);
-            if (r < e) QS(elements, r+1, e);
+            if (s < r ) QS(elements, s, r);
+            if (r+1 < e) QS(elements, r+1, e);
         }
 
 
