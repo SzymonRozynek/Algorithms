@@ -12,6 +12,12 @@ namespace Algorithms {
 
         static void Main() {
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+            Thread t = new Thread(new ThreadStart(Start), 100000000);
+            t.Start();
+        }
+
+
+        static void Start() {
             Program p = new Program();
             p.Start();
         }

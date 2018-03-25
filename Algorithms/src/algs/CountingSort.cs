@@ -18,26 +18,26 @@ namespace Algorithms {
         }
 
         protected override void SortElements(Element[] elements) {
-            int end = elements.Length;
-            int[] k= new int[end+1];
-            Element[] elements2 = new Element[end];
-            for (int i=0; i<end; i++)
-            {
-                k[elements[i].value]++;
+            int max = 0;
+            foreach(Element e in elements) {
+                if (e.value > max)
+                    max = e.value;
             }
-            for (int i = 1; i <= 450; i++)
-            {
-                k[i + 1] += k[i];
+            int[] c = new int[max + 1];
+            foreach(Element e in elements) {
+                c[e.value]++;
             }
-            for(int i= end-1; i>=0; i--)
-            {
-                elements2[--k[elements[i].value]] = elements[i];
+            for(int i = 1; i <= max; i++) {
+                c[i] += c[i - 1];
             }
-            for (int i = 1 ; i < end; i++)
-            {
-                Console.WriteLine(elements2[i].value+"  #"+elements2[i].index);
-            } 
-            
+            Element[] b = new Element[elements.Length];
+            for(int i = elements.Length - 1; i >= 0; i--) {
+                b[c[elements[i].value] - 1] = elements[i];
+                c[elements[i].value]--;
+            }
+            for(int i = 0; i < elements.Length; i++) {
+                elements[i] = b[i];
+            }
         }
 
     }

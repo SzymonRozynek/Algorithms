@@ -37,12 +37,12 @@ namespace Algorithms {
             }
             int loops = elements.Length > (int)windowWidth ? (int)windowWidth : elements.Length;
             for (int k = 0; k < loops; k++) {
-                int i = (int)(k*(elements.Length/(float)windowWidth));
+                int i = elements.Length > (int)windowWidth ? (int)(k*(elements.Length/(float)windowWidth)) : k;
                 float width = (float)windowWidth / (float)elements.Length;
                 if (width < 1.0f) width = 1.0f;
                 float height = (float)(elements[i].value * windowHeight) / (float)max;
                 RectangleShape bar = new RectangleShape(new Vector2f(width, height));
-                float x = elements.Length > (int)windowWidth ? k : i * windowWidth / elements.Length;
+                float x = elements.Length > (int)windowWidth ? k : k *windowWidth/elements.Length;
                 float y = windowHeight - height;
                 bar.Position = new Vector2f(x, y);
                 bar.FillColor = Color.Yellow;
