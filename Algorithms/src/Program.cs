@@ -11,8 +11,9 @@ namespace Algorithms {
         public void Start() {
             Console.WriteLine("Choose a task");
             Console.WriteLine("1. Implementation");
-            Console.WriteLine("2. Diagnostics (random distribution)");
-            Console.WriteLine("3. Diagnostics (for each distribution)");
+            Console.WriteLine("2. Diagnostics");
+            Console.WriteLine("3. Quick sort and insertion sort for each distribution");
+            Console.WriteLine("4. Counting Sort and Quick Sort comparison");
             int input = InputParameter();
             switch(input) {
                 case 1:
@@ -23,6 +24,9 @@ namespace Algorithms {
                     break;
                 case 3:
                     Task3();
+                    break;
+                case 4:
+                    Task4();
                     break;
                 default:
                     Console.WriteLine("No task with such index");
@@ -103,7 +107,32 @@ namespace Algorithms {
             }
         }
 
-
+        private void Task4() {
+            SortingAlgorithm[] algs = { new CountingSort(), new InsertionSort() };
+            Console.WriteLine("Insert the first number of elements");
+            int nm = InputParameter();
+            Table table = new Table(3, 21);
+            table.StartWithNewThread();
+            for (int k = 0; k < 2; k++) {
+                Graph g = new Graph("Number of elements", "Time[s]");
+                foreach (SortingAlgorithm s in algs) {
+                    Table.Tab tab = new Table.Tab(s.GetName());
+                    table.AddTab(tab);
+                    tab.AddLine(new string[] { "Number of elements", "Time (in seconds)", "Number of iterations" });
+                    Graph.Data pointData = new Graph.Data(s.GetName());
+                    for (int i = 0; i < 20; i++) {
+                        int n = nm * (i + 1);
+                        Element[] elements = GenerateElements(n, k == 0 ? n*100 : (int)(n*0.01));
+                        s.Sort(elements);
+                        pointData.AddPoint(n, ((float)s.GetElapsedTime() / 1000));
+                        string[] line = { n.ToString(), ((float)s.GetElapsedTime() / 1000).ToString("0.00"), s.GetIterationCount().ToString() };
+                        tab.AddLine(line);
+                    }
+                    g.AddData(pointData);
+                }
+                g.StartWithNewThread();
+            }
+        }
 
         private SortingAlgorithm InputAlgorithm() {
             SortingAlgorithm s = null;

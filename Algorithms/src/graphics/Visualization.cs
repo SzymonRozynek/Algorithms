@@ -42,7 +42,7 @@ namespace Algorithms {
                 if (width < 1.0f) width = 1.0f;
                 float height = (float)(elements[i].value * windowHeight) / (float)max;
                 RectangleShape bar = new RectangleShape(new Vector2f(width, height));
-                float x = elements.Length > (int)windowWidth ? k : i * windowWidth / elements.Length;
+                float x = elements.Length > (int)windowWidth ? k : k * windowWidth / elements.Length;
                 float y = windowHeight - height;
                 bar.Position = new Vector2f(x, y);
                 bar.FillColor = Color.Yellow;
