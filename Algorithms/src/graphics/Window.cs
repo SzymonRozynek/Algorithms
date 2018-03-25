@@ -39,6 +39,10 @@ namespace Algorithms {
             }
         }
 
+        public void Close() {
+            renderWindow.Close();
+        }
+
         protected abstract void Update();
         protected abstract String GetWindowName();
     }

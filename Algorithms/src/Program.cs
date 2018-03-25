@@ -9,31 +9,36 @@ namespace Algorithms {
     class Program {
 
         public void Start() {
-            Console.WriteLine("Choose a task");
-            Console.WriteLine("1. Implementation");
-            Console.WriteLine("2. Diagnostics");
-            Console.WriteLine("3. Quick sort and insertion sort for each distribution");
-            Console.WriteLine("4. Counting Sort and Quick Sort comparison");
-            int input = InputParameter();
-            switch(input) {
-                case 1:
-                    Task1();
-                    break;
-                case 2:
-                    Task2();
-                    break;
-                case 3:
-                    Task3();
-                    break;
-                case 4:
-                    Task4();
-                    break;
-                default:
-                    Console.WriteLine("No task with such index");
-                    break;
+            int input = -1;
+            while (input != 0) {
+                Console.WriteLine("--------------");
+                Console.WriteLine("Choose a task");
+                Console.WriteLine("0. Exit");
+                Console.WriteLine("1. Implementation");
+                Console.WriteLine("2. Diagnostics");
+                Console.WriteLine("3. Quick sort and insertion sort for each distribution");
+                Console.WriteLine("4. Counting Sort and Quick Sort comparison");
+                input = InputParameter();
+                switch (input) {
+                    case 0:
+                        break;
+                    case 1:
+                        Task1();
+                        break;
+                    case 2:
+                        Task2();
+                        break;
+                    case 3:
+                        Task3();
+                        break;
+                    case 4:
+                        Task4();
+                        break;
+                    default:
+                        Console.WriteLine("No task with such index");
+                        break;
+                }
             }
-            Console.WriteLine("Press Enter to exit");
-            Console.ReadLine();
         }
 
         private void Task1() {
@@ -50,18 +55,32 @@ namespace Algorithms {
                 g.StartWithNewThread();
             }
             s.Sort(elements);
+            Console.WriteLine(s.GetName() + " has finished");
+            if (s.Stable) {
+                Console.WriteLine(s.GetName() + " is stable");
+            }
+            else {
+                Console.WriteLine(s.GetName() + " is not stable");
+            }
             Console.WriteLine("Time: " + s.GetElapsedTime());
         }
 
         private void Task2() {
-            Console.WriteLine("Insert the first number of elements");
+            Console.WriteLine("Insert the first number of elements (pref 200-500)");
             int nm = InputParameter();
-            Graph g = new Graph("Number of elements", "Time[s]");
-            var types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes().Where(x => x.BaseType == typeof(SortingAlgorithm));
             Table table = new Table(3, 21);
             table.StartWithNewThread();
-            foreach (var x in types) {
-                SortingAlgorithm s = (SortingAlgorithm)Activator.CreateInstance(x);
+            Graph g1 = new Graph("Number of elements", "Time[s]");
+            Graph g2 = new Graph("Number of elements", "Time[s]");
+            T2(new SortingAlgorithm[] { new InsertionSort(), new BoubleSort(), new SelectionSort() }, table, nm, g1);
+            T2(new SortingAlgorithm[]{ new QuickSort(), new HeapSort(), new CountingSort()}, table, 100*nm, g2);
+            g1.StartWithNewThread();
+            g2.StartWithNewThread();
+        }
+
+
+        private void T2(SortingAlgorithm[] ss, Table table, int nm, Graph g) {
+            foreach (SortingAlgorithm s in ss) {
                 Table.Tab tab = new Table.Tab(s.GetName());
                 table.AddTab(tab);
                 tab.AddLine(new string[] { "Number of elements", "Time (in seconds)", "Number of iterations" });
@@ -76,12 +95,11 @@ namespace Algorithms {
                 }
                 g.AddData(pointData);
             }
-            g.StartWithNewThread();
         }
 
         private void Task3() {
             SortingAlgorithm[] algs = { new QuickSort(), new InsertionSort() };
-            Console.WriteLine("Insert the first number of elements");
+            Console.WriteLine("Insert the first number of elements (pref 400-800)");
             int nm = InputParameter();
             Table table = new Table(3, 21);
             table.StartWithNewThread();
@@ -108,18 +126,20 @@ namespace Algorithms {
         }
 
         private void Task4() {
-            SortingAlgorithm[] algs = { new CountingSort(), new InsertionSort() };
-            Console.WriteLine("Insert the first number of elements");
+            SortingAlgorithm[] algs = { new CountingSort(), new QuickSort() };
+            Console.WriteLine("Insert the first number of elements (pref 5000-15000)");
             int nm = InputParameter();
             Table table = new Table(3, 21);
             table.StartWithNewThread();
+            Graph[] g = new Graph[2];
             for (int k = 0; k < 2; k++) {
-                Graph g = new Graph("Number of elements", "Time[s]");
+                string type = k == 0 ? "[1, 100*n]" : "[1, 0.01*n]";
+                g[k] = new Graph("Number of elements", "Time[s]");
                 foreach (SortingAlgorithm s in algs) {
-                    Table.Tab tab = new Table.Tab(s.GetName());
+                    Table.Tab tab = new Table.Tab(s.GetName() + " " + type);
                     table.AddTab(tab);
                     tab.AddLine(new string[] { "Number of elements", "Time (in seconds)", "Number of iterations" });
-                    Graph.Data pointData = new Graph.Data(s.GetName());
+                    Graph.Data pointData = new Graph.Data(s.GetName() + " " + type);
                     for (int i = 0; i < 20; i++) {
                         int n = nm * (i + 1);
                         Element[] elements = GenerateElements(n, k == 0 ? n*100 : (int)(n*0.01));
@@ -128,10 +148,11 @@ namespace Algorithms {
                         string[] line = { n.ToString(), ((float)s.GetElapsedTime() / 1000).ToString("0.00"), s.GetIterationCount().ToString() };
                         tab.AddLine(line);
                     }
-                    g.AddData(pointData);
+                    g[k].AddData(pointData);
                 }
-                g.StartWithNewThread();
             }
+            g[0].StartWithNewThread();
+            g[1].StartWithNewThread();
         }
 
         private SortingAlgorithm InputAlgorithm() {

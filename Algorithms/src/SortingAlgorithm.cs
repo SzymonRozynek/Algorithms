@@ -11,6 +11,9 @@ namespace Algorithms {
 
         private long deltaTime = 0;
         protected int iterationCount = 0;
+        private bool stable;
+
+        public bool Stable { get => stable; set => stable = value; }
 
         public void Sort(Element[] elements) {
             iterationCount = 0;
@@ -22,9 +25,7 @@ namespace Algorithms {
             if((e = IsSorted(elements)) != -1) {
                 Console.WriteLine("Error! The algorithm failed to sort all the elements! Elements " + e + " and " + (e + 1) + " are not sorted.");
             }
-            if (!IsStable(elements)) {
-                Console.WriteLine("The algorithm is not stable!");
-            }
+            stable = IsStable(elements);
             deltaTime = stopwatch.ElapsedMilliseconds;
         }
 
