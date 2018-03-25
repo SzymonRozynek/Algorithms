@@ -37,8 +37,10 @@ namespace Algorithms {
             Element[] elements = GenerateElements(n, max);
 
             SortingAlgorithm s = InputAlgorithm();
-            Visualization g = new Visualization(elements);
-            g.StartWithNewThread();
+            if (s.IsInPlace()) {
+                Visualization g = new Visualization(elements);
+                g.StartWithNewThread();
+            }
             s.Sort(elements);
             Console.WriteLine("Time: " + s.GetElapsedTime());
         }
