@@ -14,7 +14,7 @@ namespace Algorithms {
         private const int lineWidth = 1;
         private const int lineCount = 20;
         private const int legendWidth = 200;
-        private Color[] graphColors = { Color.Yellow, Color.Blue, Color.Cyan, Color.Magenta };
+        private Color[] graphColors = { Color.Yellow, Color.Blue, Color.Cyan, Color.Magenta, Color.White, Color.Green };
 
         private Font font;
         private string xLabel;

@@ -9,7 +9,7 @@ namespace Algorithms {
     class BoubleSort : SortingAlgorithm {
 
         public override string GetName() {
-            return "Bouble Sort";
+            return "Bubble Sort";
         }
 
         public override bool IsInPlace()
