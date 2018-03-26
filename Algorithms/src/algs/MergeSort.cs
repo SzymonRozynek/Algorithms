@@ -26,7 +26,7 @@ namespace Algorithms {
                 } else {
                     elements[j++] = elements2[k++];
                 }
-
+                IterationTick();
             }
             if (l < m) {
                 while (l <= m) {

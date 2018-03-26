@@ -17,16 +17,14 @@ namespace Algorithms {
         protected override void SortElements(Element[] elements) {
             int start = 1;
             for(int i = start; i < elements.Length; i++) {
-                Element e = elements[start];
-                for(int k = 0; k < start; k++) {
-                    if(e.value < elements[k].value) {
-                        for(int j = start; j > k; j--) {
-                            elements[j] = elements[j - 1];
-                        }
-                        elements[k] = e;
+                for(int k = start; k > 0; k--) {
+                    if(elements[k].value < elements[k - 1].value) {
+                        SwapElements(elements, k, k - 1);
+                        IterationTick();
+                    }
+                    else {
                         break;
                     }
-                    IterationTick();
                 }
                 start++;
             }
