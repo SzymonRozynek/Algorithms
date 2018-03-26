@@ -73,7 +73,7 @@ namespace Algorithms {
             Graph g1 = new Graph("Number of elements", "Time[s]");
             Graph g2 = new Graph("Number of elements", "Time[s]");
             T2(new SortingAlgorithm[] { new InsertionSort(), new BoubleSort(), new SelectionSort() }, table, nm, g1);
-            T2(new SortingAlgorithm[]{ new QuickSort(), new HeapSort(), new CountingSort()}, table, 100*nm, g2);
+            T2(new SortingAlgorithm[]{ new QuickSort(), new HeapSort(), new CountingSort(), new MergeSort()}, table, nm*50, g2);
             g1.StartWithNewThread();
             g2.StartWithNewThread();
         }

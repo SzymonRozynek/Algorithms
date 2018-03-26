@@ -6,48 +6,42 @@ using System.Threading.Tasks;
 using System.Threading;
 
 namespace Algorithms {
-    class QuickSort : SortingAlgorithm
-    {
+    class QuickSort : SortingAlgorithm {
 
-        public override string GetName()
-        {
+        public override string GetName() {
             return "Quick Sort";
         }
 
-        public override bool IsInPlace()
-        {
+        public override bool IsInPlace() {
             return true;
         }
 
-        void QS(Element[] elements, int s, int e)
-        {
-            if (elements[s].value > elements[e].value) SwapElements(elements, s, e);
+        void QS(Element[] elements, int s, int e) {
+            //if (e <= s) return;
             int p, l, r;
-            l = s;
-            r = e;
-            p = elements[l].value;
-            while (l < r) {
-                while (elements[l].value < p) { l++; IterationTick(); }
-                while (elements[r].value > p) { r--; IterationTick(); }
-                if (l < r) SwapElements(elements, l++, r);
+            l = s - 1;
+            r = e + 1;
+            p = elements[(l + r) / 2].value;
+            while (true) {
+                while (elements[++l].value < p) IterationTick();
+                while ((--r >= l) && (elements[r].value > p)) IterationTick();
+                if (l <= r) SwapElements(elements, l, r);
+                else break;
             }
 
-            if (s < r) QS(elements, s, r - 1);
-            if (r < e) QS(elements, r + 1, e);
+            if (l < e) QS(elements, l, e);
+            if (s < r) QS(elements, s, r);
         }
 
 
-        protected override void SortElements(Element[] elements)
-        {
+        protected override void SortElements(Element[] elements) {
             int start = 0;
             int end = elements.Length - 1;
             QS(elements, start, end);
-            for (int i = 1; i <= end; i++)
-            {
-                //Console.WriteLine(elements[i].value);
-
-            } 
+            /* for (int i = 1; i <= end; i++)
+             {
+                 Console.WriteLine(elements[i].value);
+             } */
         }
     }
- }
-
+}

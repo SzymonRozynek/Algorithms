@@ -43,7 +43,7 @@ namespace Algorithms {
         }
 
         protected override void SortElements(Element[] elements) {
-            for(int i = elements.Length - 1; i >= 0; i--) {
+            for(int i = elements.Length/2; i >= 0; i--) {
                 Heap(elements, i, elements.Length -1);
             }
             for(int i = 0; i < elements.Length - 1; i++) {
