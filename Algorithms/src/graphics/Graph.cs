@@ -14,7 +14,7 @@ namespace Algorithms {
         private const int lineWidth = 1;
         private const int lineCount = 20;
         private const int legendWidth = 200;
-        private Color[] graphColors = { Color.Yellow, Color.Blue, Color.Cyan, Color.Magenta, Color.White, Color.Green };
+        private Color[] graphColors = { Color.Yellow, Color.Blue, Color.Red, Color.Magenta, Color.White, Color.Green };
 
         private Font font;
         private string xLabel;
@@ -27,6 +27,7 @@ namespace Algorithms {
             windowHeight = 600;
             datas = new List<Data>();
             font = new Font("fonts\\arial.ttf");
+            windowColor = Color.White;
         }
 
         List<Data> datas;
@@ -43,18 +44,6 @@ namespace Algorithms {
 
             int graphWidth = (int)windowWidth - 2 * axisOffset - legendWidth;
             int graphHeight = (int)windowHeight - 2 * axisOffset;
-
-            //Axis
-            RectangleShape axisX = new RectangleShape() {
-                Position = new Vector2f(axisOffset, windowHeight - axisOffset),
-                Size = new Vector2f(graphWidth, axisWidth)
-            };
-            renderWindow.Draw(axisX);
-            RectangleShape axisY = new RectangleShape() {
-                Position = new Vector2f(axisOffset, axisOffset),
-                Size = new Vector2f(axisWidth, graphHeight)
-            };
-            renderWindow.Draw(axisY);
 
             //Calculate max
             int maxArg = 0;
@@ -73,18 +62,19 @@ namespace Algorithms {
             //Lines and labels
             int stepX = graphWidth / lineCount;
             int stepY = graphHeight / lineCount;
-            for(int i = 1; i <= lineCount; i++) {
+            for (int i = 1; i <= lineCount; i++) {
                 int y = (int)windowHeight - axisOffset - i * stepY;
                 RectangleShape lineX = new RectangleShape() {
                     Position = new Vector2f(axisOffset, y),
                     Size = new Vector2f(graphWidth, lineWidth),
-                    FillColor = Color.Red
+                    FillColor = Color.Cyan
                 };
                 renderWindow.Draw(lineX);
                 float value = ((float)i / lineCount) * maxValue;
                 Text label = new Text(value.ToString("0.00"), font) {
                     Position = new Vector2f(axisOffset / 2, y),
-                    CharacterSize = 14
+                    CharacterSize = 14,
+                    Color = Color.Black
                 };
                 label.Position -= new Vector2f(label.GetLocalBounds().Width / 2, label.GetLocalBounds().Height);
                 renderWindow.Draw(label);
@@ -94,17 +84,18 @@ namespace Algorithms {
                 RectangleShape lineY = new RectangleShape() {
                     Position = new Vector2f(x, axisOffset),
                     Size = new Vector2f(lineWidth, graphHeight),
-                    FillColor = Color.Red,                                   
+                    FillColor = Color.Cyan,
                 };
                 renderWindow.Draw(lineY);
                 float value = ((float)i / lineCount) * maxArg;
                 Text label = new Text(value.ToString(), font) {
                     Position = new Vector2f(x, graphHeight + axisOffset + 10),
                     CharacterSize = 14,
-                    Rotation = 90.0f
+                    Rotation = 90.0f,
+                    Color = Color.Black
                 };
                 label.Position += new Vector2f(label.GetLocalBounds().Height / 2, 0.0f);
-                label.Origin = new Vector2f(0.0f, label.GetLocalBounds().Height/2);
+                label.Origin = new Vector2f(0.0f, label.GetLocalBounds().Height / 2);
                 renderWindow.Draw(label);
             }
 
@@ -121,10 +112,11 @@ namespace Algorithms {
                     Radius = 8
                 };
                 Text label = new Text(data.title, font) {
-                    Position = new Vector2f(axisOffset + graphWidth + legendsOffset + 2*col.Radius + 10, labelY),
-                    CharacterSize = 15
+                    Position = new Vector2f(axisOffset + graphWidth + legendsOffset + 2 * col.Radius + 10, labelY),
+                    CharacterSize = 15,
+                    Color = Color.Black
                 };
-                labelY += col.Radius*2.5f;
+                labelY += col.Radius * 2.5f;
                 renderWindow.Draw(col);
                 renderWindow.Draw(label);
 
@@ -139,7 +131,7 @@ namespace Algorithms {
                     renderWindow.Draw(c);
                 }
 
-                for(int i = 0; i < data.points.Count - 1; i++) {
+                for (int i = 0; i < data.points.Count - 1; i++) {
                     Point p1 = data.points.ElementAt(i);
                     Vector2f v1 = new Vector2f(axisOffset + graphWidth * ((float)p1.argument / maxArg), windowHeight - axisOffset - graphHeight * (p1.value / maxValue));
                     Point p2 = data.points.ElementAt(i + 1);
@@ -150,7 +142,7 @@ namespace Algorithms {
                         Position = (v1 + v2) * 0.5f,
                         Origin = new Vector2f(distance / 2, 0.0f),
                         FillColor = graphColors[colorCount],
-                        Rotation = (int)(180.0*Math.Atan2(v2.Y - v1.Y, v2.X - v1.X)/Math.PI)
+                        Rotation = (int)(180.0 * Math.Atan2(v2.Y - v1.Y, v2.X - v1.X) / Math.PI)
                     };
                     renderWindow.Draw(line);
                 }
@@ -158,18 +150,34 @@ namespace Algorithms {
                 colorCount++;
             }
 
+            //Axis
+            RectangleShape axisX = new RectangleShape() {
+                Position = new Vector2f(axisOffset, windowHeight - axisOffset),
+                Size = new Vector2f(graphWidth, axisWidth),
+                FillColor = Color.Black
+            };
+            renderWindow.Draw(axisX);
+            RectangleShape axisY = new RectangleShape() {
+                Position = new Vector2f(axisOffset, axisOffset),
+                Size = new Vector2f(axisWidth, graphHeight),
+                FillColor = Color.Black
+            };
+            renderWindow.Draw(axisY);
+
             //Axis labels
             float maxWidth = 100;
             Text xt = new Text(xLabel, font) {
                 Position = new Vector2f(axisOffset + graphWidth, windowHeight - axisOffset - 20),
-                CharacterSize = 20
+                CharacterSize = 20,
+                Color = Color.Black
             };
             xt.Origin = new Vector2f(xt.GetLocalBounds().Width / 2, xt.GetLocalBounds().Height / 2);
             xt.Scale = xt.GetLocalBounds().Width > maxWidth ? (new Vector2f(1.0f, 1.0f)) * (maxWidth / xt.GetLocalBounds().Width) : new Vector2f(1.0f, 1.0f);
             renderWindow.Draw(xt);
             Text yt = new Text(yLabel, font) {
                 Position = new Vector2f(axisOffset, axisOffset - 20),
-                CharacterSize = 20
+                CharacterSize = 20,
+                Color = Color.Black
 
             };
             yt.Origin = new Vector2f(yt.GetLocalBounds().Width / 2, yt.GetLocalBounds().Height / 2);

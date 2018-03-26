@@ -13,6 +13,7 @@ namespace Algorithms {
         protected uint windowWidth = 800;
         protected uint windowHeight = 600;
         protected RenderWindow renderWindow;
+        protected Color windowColor = new Color(0, 0, 0);
 
 
         static void OnClose(object sender, EventArgs e) {
@@ -29,7 +30,6 @@ namespace Algorithms {
         public void Start() {
             renderWindow = new RenderWindow(new VideoMode(windowWidth, windowHeight), GetWindowName());
             renderWindow.Closed += new EventHandler(OnClose);
-            Color windowColor = new Color(0, 0, 0);
 
             while (renderWindow.IsOpen) {
                 renderWindow.DispatchEvents();
