@@ -21,19 +21,20 @@ namespace Algorithms {
 
         void QS(Element[] elements, int s, int e)
         {
+            //if (e <= s) return;
             int p, l, r;
-            l = s;
-            r = e;
-            p = elements[l].value;
-            while (l < r)
-            {
-                while (elements[l].value <p) { l++; IterationTick(); }
-                while (elements[r].value >p) { r--; IterationTick(); }
-                if(l<r) SwapElements(elements, l++, r);
+            l = s-1;
+            r = e+1;
+            p = elements[(l+r)/2].value;
+            while (true) {
+                while (elements[++l].value < p)  IterationTick();
+                while ((--r>=l)&&(elements[r].value > p))  IterationTick();
+                if (l <= r) SwapElements(elements, l, r);
+                else break;
             }
 
-            if (s < r ) QS(elements, s, r-1);
-            if (r < e) QS(elements, r+1, e);
+            if (l < e) QS(elements, l, e);
+            if (s < r ) QS(elements, s, r);
         }
 
 
@@ -42,11 +43,11 @@ namespace Algorithms {
             int start = 0;
             int end = elements.Length - 1;
             QS(elements, start, end);
-            for (int i = 1; i <= end; i++)
+           /* for (int i = 1; i <= end; i++)
             {
                 Console.WriteLine(elements[i].value);
 
-            } 
+            } */
         }
     }
  }
