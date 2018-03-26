@@ -135,6 +135,7 @@
     <Compile Include="src\algs\InsertionSort.cs" />
     <Compile Include="src\algs\MergeSort.cs" />
     <Compile Include="src\algs\QuickSort.cs" />
+    <Compile Include="src\algs\QuickSort2.cs" />
     <Compile Include="src\algs\SelectionSort.cs" />
     <Compile Include="src\graphics\Button.cs" />
     <Compile Include="src\graphics\Graph.cs" />

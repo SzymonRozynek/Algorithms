@@ -98,7 +98,7 @@ namespace Algorithms {
         }
 
         private void Task3() {
-            SortingAlgorithm[] algs = { new QuickSort(), new InsertionSort() };
+            SortingAlgorithm[] algs = { new QuickSort(), new QuickSort2(), new InsertionSort() };
             Console.WriteLine("Insert the first number of elements (pref 400-800)");
             int nm = InputParameter();
             Table table = new Table(3, 21);

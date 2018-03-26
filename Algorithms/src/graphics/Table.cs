@@ -94,22 +94,26 @@ namespace Algorithms {
                     Position = new Vector2f(windowWidth / 2, titleHeight / 2),
                     CharacterSize = (uint)(titleHeight / 2)
                 };
+                float scale = titleText.GetGlobalBounds().Width > (windowWidth * 0.75) ? windowWidth * 0.75f / titleText.GetGlobalBounds().Width : 1.0f;
+                titleText.Scale *= scale;
                 titleText.Origin = new Vector2f(titleText.GetLocalBounds().Width / 2, titleText.GetLocalBounds().Height / 2);
                 renderWindow.Draw(titleText);
 
                 for (int y = 0; y < selectedTab.values.Count; y++) {
                     string[] line = selectedTab.values.ElementAt(y);
                     for (int x = 0; x < width; x++) {
-                        Text t = new Text(line[x], font) {
-                            Position = new Vector2f(xSpace / 2 + x * xSpace, ySpace / 2 + y * ySpace + titleHeight),
-                            Color = Color.Yellow,
-                        };
-                        float field = 0.8f * xSpace;
-                        if (t.GetLocalBounds().Width > field) {
-                            t.Scale = new Vector2f(field / t.GetLocalBounds().Width, field / t.GetLocalBounds().Width);
+                        if (line != null) {
+                            Text t = new Text(line[x], font) {
+                                Position = new Vector2f(xSpace / 2 + x * xSpace, ySpace / 2 + y * ySpace + titleHeight),
+                                Color = Color.Yellow,
+                            };
+                            float field = 0.8f * xSpace;
+                            if (t.GetLocalBounds().Width > field) {
+                                t.Scale = new Vector2f(field / t.GetLocalBounds().Width, field / t.GetLocalBounds().Width);
+                            }
+                            t.Position -= new Vector2f(t.GetLocalBounds().Width * t.Scale.X / 2, t.GetLocalBounds().Height * t.Scale.Y / 2);
+                            renderWindow.Draw(t);
                         }
-                        t.Position -= new Vector2f(t.GetLocalBounds().Width * t.Scale.X / 2, t.GetLocalBounds().Height * t.Scale.Y / 2);
-                        renderWindow.Draw(t);
                     }
                 }
             }

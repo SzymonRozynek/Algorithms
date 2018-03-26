@@ -9,7 +9,7 @@ namespace Algorithms {
     class QuickSort : SortingAlgorithm {
 
         public override string GetName() {
-            return "Quick Sort";
+            return "Quick Sort [Middle]";
         }
 
         public override bool IsInPlace() {
